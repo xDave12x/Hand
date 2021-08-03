@@ -1,3 +1,5 @@
+prediction_1="";
+prediction_2="";
 Webcam.set({
     width:350,
     height:300,
@@ -11,21 +13,15 @@ function take_snapshot(){
         document.getElementById("result").innerHTML='<img id="captured_image" src="'+data_uri+'">';
     });
 }
-console.log('ml5 version',ml5.version);
-classifier=ml5.imageClassifier('https://teachablemachine.withgoogle.com/models/aM2VEWD6f/',modelLoaded);
+console.log('ml5.version',ml5.version);
+classifier=ml5.imageClassifier("https://teachablemachine.withgoogle.com/models/ooVS3lCUF/model.json",modelLoaded);
 function modelLoaded(){
-    console.log('model loaded');
+    console.log('modelLoaded');
 }
-function check(){
-    img=document.getElementById('captured_image');
-    classifier.classify(img,gotResult);
-}
-function gotResult(error,results){
-    if(error){
-        console.error(error);
-    }else{
-        console.log(results);
-        document.getElementById("result_object_name").innerHTML=results[0].label;
-        document.getElementById("result_object_accuracy").innerHTML=results[0].confidence.toFixed(3);
-    }
+function speak(){
+    var synth=window.speechSynthesis;
+    speak_data_1="The First Prediction is"+prediction_1;
+    speak_data_2="and the second Prediction is"+prediction_2;
+var utterThis=new SpeechSynthesisUtterance(speak_data_1+speak_data_2);
+synth.speak(utterThis);
 }
